@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ReviewPro - Features</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+body {
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  padding: 0;
+  background: url("{{ url_for('static', filename='feature-bg.png') }}") no-repeat center center fixed;
+  background-size: cover;
+  padding-top: 80px;
+}
+
+/* Header */
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 50px;
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+}
+header h1 {
+  color: #1a4f8b;
+  font-size: 2em;
+  margin: 0;
+  font-weight: 600;
+}
+nav a {
+  margin: 0 15px;
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+  transition: 0.3s;
+}
+nav a:hover { color: #1a73e8; }
+
+/* Features Section */
+h2 {
+  text-align:center;
+  margin:50px 0 30px 0;
+  font-size:2em;
+  color:#b30000;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.15);
+}
+.features {
+  display:flex;
+  flex-wrap:wrap;
+  gap:25px;
+  justify-content:space-between;
+  max-width:1100px;
+  margin:0 auto 50px auto;
+  background: transparent; /* कोई बड़ा white background नहीं */
+  box-shadow: none;
+}
+.feature-card {
+  background: #ffffff; /* White background for each card */
+  flex:1 1 300px;
+  padding:25px 20px;
+  border-radius:20px;
+  text-align:center;
+  transition:all 0.3s ease;
+  cursor:pointer;
+  box-shadow:0 8px 25px rgba(0,0,0,0.08);
+}
+.feature-card:hover {
+  transform:translateY(-8px);
+  box-shadow:0 15px 35px rgba(0,0,0,0.15);
+}
+.feature-card img {
+  width:200px;
+  margin-bottom:20px;
+}
+.feature-card h3 {
+  color:#b30000;
+  margin-bottom:10px;
+  font-size:1.4em;
+}
+.feature-card p {
+  color:#222;
+  font-size:1em;
+  line-height:1.5;
+}
+
+/* More Info Section */
+.more-info {
+  background:#1a4f8b;
+  color:#f0f0f0;
+  padding:40px 30px;
+  border-radius:20px;
+  text-align:center;
+  margin-bottom:50px;
+  max-width:900px;
+  margin-left:auto;
+  margin-right:auto;
+}
+.more-info h3 { font-size:1.9em; margin-bottom:18px; }
+.more-info p { font-size:1.15em; line-height:1.5; color:#e0e0e0; }
+
+/* Responsive */
+@media(max-width:900px){
+  .features{flex-direction:column;align-items:center;}
+  nav a{display:block;margin:10px 0;text-align:center;}
+  header{padding:10px 20px;}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>ReviewPro</h1>
+  <nav>
+    <a href="{{ url_for('home') }}">Home</a>
+    <a href="{{ url_for('about') }}">About</a>
+    <a href="{{ url_for('features') }}" class="active">Features</a>
+    <a href="{{ url_for('check_review') }}">Check Review</a>
+    <a href="{{ url_for('contact') }}">Contact</a>
+  </nav>
+</header>
+
+<h2>Our Features</h2>
+<div class="features">
+  <div class="feature-card">
+    <img src="{{ url_for('static', filename='feature1.png') }}" alt="Fake Review Detection">
+    <h3>Fake Review Detection</h3>
+    <p>Identify fake and misleading reviews with high accuracy using our machine learning models.</p>
+  </div>
+
+  <div class="feature-card">
+    <img src="{{ url_for('static', filename='feature2.png') }}" alt="AI Content Detection">
+    <h3>AI-Generated Content Detection</h3>
+    <p>Detect if a review is AI-generated or human-written to ensure authenticity.</p>
+  </div>
+
+  <div class="feature-card">
+    <img src="{{ url_for('static', filename='feature3.png') }}" alt="Product Similarity Check">
+    <h3>Product Review Similarity</h3>
+    <p>Compare reviews against existing product reviews to check alignment with genuine feedback.</p>
+  </div>
+
+  <div class="feature-card">
+    <img src="{{ url_for('static', filename='feature4.png') }}" alt="Fast & Easy">
+    <h3>Fast & Easy</h3>
+    <p>Check reviews in seconds with a simple, intuitive interface for everyone.</p>
+  </div>
+
+  <div class="feature-card">
+    <img src="{{ url_for('static', filename='feature5.png') }}" alt="Explainable Results">
+    <h3>Explainable Results</h3>
+    <p>Clear results with confidence scores and similarity metrics for better understanding.</p>
+  </div>
+
+  <div class="feature-card">
+    <img src="{{ url_for('static', filename='feature6.png') }}" alt="Secure & Reliable">
+    <h3>Secure & Reliable</h3>
+    <p>Your data is secure. ReviewPro ensures trustworthy and consistent review analysis.</p>
+  </div>
+</div>
+
+<div class="more-info">
+  <h3>Why Choose ReviewPro?</h3>
+  <p>ReviewPro combines AI analysis, similarity checks, and a user-friendly interface to provide a comprehensive platform for verifying reviews. Ideal for buyers, sellers, and researchers.</p>
+</div>
+
+</body>
+</html>

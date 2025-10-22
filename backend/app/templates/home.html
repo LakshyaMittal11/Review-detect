@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ReviewPro - Home</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+body {
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  padding: 0;
+  background: url("{{ url_for('static', filename='home-bg.png') }}") no-repeat center center fixed;
+  background-size: cover;
+  padding-top: 80px;
+}
+
+/* Header */
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 50px;
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+}
+header h1 {
+  color: #1a4f8b;
+  font-size: 2em;
+  margin: 0;
+  font-weight: 600;
+}
+nav a {
+  margin: 0 15px;
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+  transition: 0.3s;
+}
+nav a:hover { color: #1a73e8; }
+
+/* Hero Section */
+.hero {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 auto 50px auto;
+  max-width: 1100px;
+  padding: 50px 30px;
+  background: rgba(255, 255, 255, 0.92);
+  border-radius: 20px;
+  box-shadow: 0 12px 35px rgba(0,0,0,0.12);
+}
+.hero-text {flex:1 1 500px;}
+.hero-text h1 {
+  font-size: 2.8em;
+  color: #1a4f8b;
+  margin-bottom: 20px;
+}
+.hero-text p {
+  font-size: 1.2em;
+  line-height: 1.6;
+  color: #333;
+  margin-bottom: 25px;
+}
+.btn-getstarted {
+  display: inline-block;
+  padding: 15px 35px;
+  background: linear-gradient(135deg, #1a73e8, #145dbf);
+  color: #fff;
+  font-weight: 600;
+  border-radius: 50px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+.btn-getstarted:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+}
+.hero-image {flex:1 1 400px; text-align:center;}
+.hero-image img {
+  width:100%;
+  border-radius:20px;
+  box-shadow:0 12px 35px rgba(0,0,0,0.15);
+}
+
+/* Features Section */
+h2 {
+  text-align:center;
+  margin:50px 0 30px 0;
+  font-size:2em;
+  color:#b30000;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.15);
+}
+.features {
+  display:flex;
+  flex-wrap:wrap;
+  gap:25px;
+  justify-content:space-between;
+  max-width:1100px;
+  margin:0 auto 50px auto;
+  background: transparent; /* बड़ा container हटाया */
+  box-shadow: none;
+}
+.feature-card {
+  background: #ffffff; /* कार्ड्स को white background दिया */
+  flex:1 1 300px;
+  padding:25px 20px;
+  border-radius:20px;
+  text-align:center;
+  transition:all 0.3s ease;
+  cursor:pointer;
+}
+.feature-card:hover {
+  transform:translateY(-8px);
+  box-shadow:0 10px 25px rgba(0,0,0,0.15);
+}
+.feature-card img {
+  width:80px;
+  margin-bottom:15px;
+}
+.feature-card h3 {
+  color:#b30000;
+  margin-bottom:10px;
+  font-size:1.4em;
+}
+.feature-card p {
+  color:#222;
+  font-size:1em;
+  line-height:1.5;
+}
+
+/* More Info Section */
+.more-info {
+  background:#1a4f8b;
+  color:#f0f0f0;
+  padding:40px 30px;
+  border-radius:20px;
+  text-align:center;
+  margin-bottom:50px;
+  max-width:900px;
+  margin-left:auto;
+  margin-right:auto;
+}
+.more-info h3 { font-size:1.9em; margin-bottom:18px; }
+.more-info p { font-size:1.15em; line-height:1.5; color:#e0e0e0; }
+
+/* Responsive */
+@media(max-width:900px){
+  .features{flex-direction:column;align-items:center;}
+  .hero{flex-direction:column;}
+  nav a{display:block;margin:10px 0;text-align:center;}
+  header{padding:10px 20px;}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>ReviewPro</h1>
+  <nav>
+    <a href="{{ url_for('home') }}" class="active">Home</a>
+    <a href="{{ url_for('about') }}">About</a>
+    <a href="{{ url_for('features') }}">Features</a>
+    <a href="{{ url_for('check_review') }}">Check Review</a>
+    <a href="{{ url_for('contact') }}">Contact</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="hero-text">
+    <h1>Detect Fake & AI-Generated Reviews Instantly</h1>
+    <p>ReviewPro helps you identify fake reviews and AI-generated content using powerful machine learning models and similarity checks against product pages. Stay informed and make smarter decisions!</p>
+    <a href="{{ url_for('check_review') }}" class="btn-getstarted">Check a Review Now</a>
+  </div>
+  <div class="hero-image">
+    <img src="{{ url_for('static', filename='hero-image.png') }}" alt="ReviewPro Hero">
+  </div>
+</section>
+
+<h2>Our Features</h2>
+<div class="features">
+  <div class="feature-card">
+    <img src="{{ url_for('static', filename='feature1.png') }}" alt="Fake Review Detection">
+    <h3>Fake Review Detection</h3>
+    <p>Quickly identify whether a review is fake or genuine using our advanced ML models.</p>
+  </div>
+  <div class="feature-card">
+    <img src="{{ url_for('static', filename='feature2.png') }}" alt="AI Content Detection">
+    <h3>AI Content Detection</h3>
+    <p>Detect reviews generated by AI and distinguish them from human-written content.</p>
+  </div>
+  <div class="feature-card">
+    <img src="{{ url_for('static', filename='feature3.png') }}" alt="Product Match">
+    <h3>Product Review Match</h3>
+    <p>Compare a review against real product reviews and see similarity scores.</p>
+  </div>
+  <div class="feature-card">
+    <img src="{{ url_for('static', filename='feature4.png') }}" alt="Quick & Easy">
+    <h3>Quick & Easy</h3>
+    <p>Simple, intuitive interface to check reviews in seconds without any hassle.</p>
+  </div>
+</div>
+
+<div class="more-info">
+  <h3>Why Choose ReviewPro?</h3>
+  <p>ReviewPro combines AI analysis, similarity checks, and a user-friendly interface to ensure transparency and credibility in online reviews. Ideal for buyers, sellers, and researchers.</p>
+</div>
+
+</body>
+</html>
