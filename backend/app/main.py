@@ -14,14 +14,23 @@ from webdriver_manager.chrome import ChromeDriverManager
 app = Flask(__name__)
 
 # ---------------- Load ML Models ----------------
-def load_model(path):
+import os
+import pickle
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))  
+MODEL_DIR = os.path.join(BASE_DIR, "models")   # ✔ सही folder
+
+def load_model(filename):
+    path = os.path.join(MODEL_DIR, filename)
+    if not os.path.exists(path):
+        raise FileNotFoundError(f"Model not found: {path}")
     with open(path, "rb") as f:
         return pickle.load(f)
 
-fake_model = load_model("models/fake_model.pkl")
-fake_vectorizer = load_model("models/fake_vectorizer.pkl")
-ai_model = load_model("models/ai_model.pkl")
-ai_vectorizer = load_model("models/ai_vectorizer.pkl")
+fake_model = load_model("fake_model.pkl")
+fake_vectorizer = load_model("fake_vectorizer.pkl")
+ai_model = load_model("ai_model.pkl")
+ai_vectorizer = load_model("ai_vectorizer.pkl")
 
 # ---------------- Selenium Driver ----------------
 def make_driver(headless=False):
