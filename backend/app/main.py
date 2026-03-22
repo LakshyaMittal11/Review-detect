@@ -4,7 +4,8 @@ import pickle, time, traceback
 from bs4 import BeautifulSoup
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
-
+import numpy as np
+from scipy.sparse import hstack
 # Selenium imports
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
@@ -31,7 +32,10 @@ fake_model = load_model("fake_model.pkl")
 fake_vectorizer = load_model("fake_vectorizer.pkl")
 ai_model = load_model("ai_model.pkl")
 ai_vectorizer = load_model("ai_vectorizer.pkl")
-
+# 🔥 EXTRA FEATURE FUNCTION
+def repetition_score(text):
+    words = text.split()
+    return len(words) - len(set(words))
 #  Selenium Driver 
 def make_driver(headless=False):
     options = Options()
@@ -141,32 +145,47 @@ def check_review():
 
         if not text:
             prediction = "⚠️ कृपया review लिखें।"
-        else:
-            fake_vec = fake_vectorizer.transform([text])
-            fake_pred = fake_model.predict(fake_vec)[0]
-            fake_label = "Fake" if fake_pred == 1 else "Real"
+            return render_template("index.html",
+                                   prediction=prediction,
+                                   show_ai=show_ai,
+                                   similarity_info=similarity_info,
+                                   product_url=product_url)
+# 🔥 NEW SMART VECTOR (IMPORTANT FIX)
+        repeat = repetition_score(text)
+        exclaim = text.count("!")
+        length = len(text.split())
 
-            ai_label = ""
-            if check_ai:
-                ai_vec = ai_vectorizer.transform([text])
-                ai_pred = ai_model.predict(ai_vec)[0]
-                ai_label = "AI-Generated" if ai_pred == 1 else "Human-Written"
-                show_ai = True
+        text_vec = fake_vectorizer.transform([text])
+        extra = np.array([[repeat, exclaim, length]])
+        fake_vec = hstack([text_vec, extra])
 
-            if product_url:
-                product_reviews = fetch_reviews_from_url(product_url, max_pages=3, headless=False)
-                if not product_reviews:
-                    similarity_info = "⚠️ URL से reviews नहीं मिले — product review page try करें।"
+        # ✅ Prediction inside POST
+        proba = fake_model.predict_proba(fake_vec)[0][1]
+        fake_pred = 1 if proba > 0.6 else 0
+        fake_label = "Fake" if fake_pred == 1 else "Real"
+
+        ai_label = ""
+        if check_ai:
+            ai_vec = ai_vectorizer.transform([text])
+            ai_pred = ai_model.predict(ai_vec)[0]
+            ai_label = "AI-Generated" if ai_pred == 1 else "Human-Written"
+            show_ai = True
+
+        if product_url:
+            product_reviews = fetch_reviews_from_url(product_url, max_pages=3, headless=False)
+            if not product_reviews:
+                similarity_info = "⚠️ URL से reviews नहीं मिले — product review page try करें।"
+            else:
+                matched, sim_score, most_similar = review_matches_product(text, product_reviews)
+                if matched:
+                    similarity_info = f"✅ Review similar (similarity={sim_score:.2f}): \"{most_similar}\""
                 else:
-                    matched, sim_score, most_similar = review_matches_product(text, product_reviews)
-                    if matched:
-                        similarity_info = f"✅ Review similar (similarity={sim_score:.2f}): \"{most_similar}\""
-                    else:
-                        similarity_info = f"⚠️ Review not similar (max similarity={sim_score:.2f}): \"{most_similar}\""
+                    similarity_info = f"⚠️ Review not similar (max similarity={sim_score:.2f}): \"{most_similar}\""
 
-            prediction = fake_label
-            if ai_label:
-                prediction += f" ({ai_label})"
+        # ✅ Final prediction combine
+        prediction = fake_label
+        if ai_label:
+            prediction += f" ({ai_label})"
 
     return render_template("index.html",
                            prediction=prediction,
