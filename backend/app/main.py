@@ -13,12 +13,12 @@ from webdriver_manager.chrome import ChromeDriverManager
 
 app = Flask(__name__)
 
-# ---------------- Load ML Models ----------------
+# Load ML Models 
 import os
 import pickle
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))  
-MODEL_DIR = os.path.join(BASE_DIR, "models")   # ✔ सही folder
+MODEL_DIR = os.path.join(BASE_DIR, "models")   
 
 def load_model(filename):
     path = os.path.join(MODEL_DIR, filename)
@@ -32,7 +32,7 @@ fake_vectorizer = load_model("fake_vectorizer.pkl")
 ai_model = load_model("ai_model.pkl")
 ai_vectorizer = load_model("ai_vectorizer.pkl")
 
-# ---------------- Selenium Driver ----------------
+#  Selenium Driver 
 def make_driver(headless=False):
     options = Options()
     if headless:
@@ -48,7 +48,7 @@ def make_driver(headless=False):
     driver = webdriver.Chrome(service=service, options=options)
     return driver
 
-# ---------------- Fetch Reviews ----------------
+# Fetch Reviews 
 def fetch_reviews_from_url(url, max_pages=3, headless=False):
     reviews = []
     driver = None
@@ -103,7 +103,7 @@ def fetch_reviews_from_url(url, max_pages=3, headless=False):
             except:
                 pass
 
-# ---------------- Similarity ----------------
+# Similarity
 def review_matches_product(input_review, product_reviews, threshold=0.6):
     if not product_reviews:
         return False, 0.0, None
@@ -114,7 +114,7 @@ def review_matches_product(input_review, product_reviews, threshold=0.6):
     max_sim = float(sim_matrix[0, max_idx])
     return max_sim >= threshold, max_sim, product_reviews[max_idx]
 
-# ---------------- Routes ----------------
+#  Routes
 @app.route("/")
 def home():
     return render_template("home.html")

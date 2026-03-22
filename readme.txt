@@ -153,5 +153,5 @@ Testing Tool        : Postman / CURL
 
 AUTHOR DETAILS
 ----------------------------------------------------------
-Developed By  : Lakshya Mittal
+Developed By  : Lakshya Mittal 
 Role          : AI Developer | Full Stack Engineer

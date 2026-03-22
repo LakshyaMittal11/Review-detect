@@ -32,6 +32,8 @@ log_acc = accuracy_score(y_test, log_model.predict(X_test))
 rf_model = RandomForestClassifier(n_estimators=200, random_state=42)
 rf_model.fit(X_train, y_train)
 rf_acc = accuracy_score(y_test, rf_model.predict(X_test))
+print(f"📊 Logistic Regression Accuracy: {log_acc*100:.2f}%")
+print(f"📊 Random Forest Accuracy: {rf_acc*100:.2f}%")
 
 best_model = log_model if log_acc >= rf_acc else rf_model
 best_name = "Logistic Regression" if log_acc >= rf_acc else "Random Forest"
